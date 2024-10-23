@@ -1,7 +1,7 @@
 <?php
 
 require_once  __DIR__ . '/../vendor/autoload.php';
-use iutnc\deefy\DeefyRepository;
+use iutnc\deefy\db\DeefyRepository;
 
 
 DeefyRepository::setConfig(__DIR__ . '/../config/deefy.db.ini');

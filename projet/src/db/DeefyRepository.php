@@ -1,7 +1,6 @@
 <?php
 
-namespace iutnc\deefy;
-
+namespace iutnc\deefy\db;
 use PDO;
 
 class DeefyRepository
@@ -33,5 +32,23 @@ class DeefyRepository
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function findUserById(string $id) : mixed
+    {
+        $query = "SELECT * FROM user WHERE id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function findUserByEmail(string $email) : mixed
+    {
+        $query = "SELECT * FROM user WHERE id = :email";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+
 
 }

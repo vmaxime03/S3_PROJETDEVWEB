@@ -7,6 +7,7 @@ use iutnc\deefy\action\AddUserAction;
 use iutnc\deefy\action\DefaultAction;
 use iutnc\deefy\action\DisplayPlaylistAction;
 use iutnc\deefy\action\AddTrackAction;
+use iutnc\deefy\action\SignInAction;
 
 class Dispatcher {
     private String $action;
@@ -30,6 +31,7 @@ class Dispatcher {
             <li><a href="?action=playlist">Afficher playlist</a></li>
             <li><a href="?action=default">Action par defaut</a></li>
             <li><a href="?action=add-user">Ajouter utilisateur</a></li>
+            <li><a href="?action=signin">Se Connecter</a></li>
         </ul>
         
        <div>$html</div> 
@@ -46,6 +48,7 @@ END;
             "add-playlist" => new AddPlaylistAction(),
             "add-track" => new AddTrackAction(),
             "add-user" => new AddUserAction(),
+            "signin" => new SigninAction(),
             default => new DefaultAction()
         })->execute());
 
