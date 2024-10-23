@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'iutnc/deefy',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'f969fc25be9b8c70d5b30eef329f3107961e1638',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'iutnc/deefy' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'f969fc25be9b8c70d5b30eef329f3107961e1638',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
