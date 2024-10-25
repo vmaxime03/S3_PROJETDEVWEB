@@ -8,8 +8,8 @@ use iutnc\deefy\audio\tracks\AlbumTrack;
 
 class AddTrackAction extends Action
 {
-    private const UPLOAD_URL = "http://localhost/BUT/S3_DEVWEB/td11/uploads/audio";
-    private const AUDIO_PATH = "C:\\xampp\\htdocs\\BUT\\S3_DEVWEB\\td11\\uploads\\audio";
+    private const UPLOAD_URL = "http://localhost/BUT/S3_PROJETDEVWEB/projet/src/uploads/audio";
+    private const AUDIO_PATH =  __DIR__ . "\\..\\uploads\\audio";
 
     public function get(): string
     {
