@@ -27,12 +27,10 @@ FORM;
             return "entrée manquante";
         }
 
-        if (isset($_SESSION["userEmail"]) && $_SESSION["userEmail"] == $_POST['userEmail']) {
-            return "deja connécté";
-        }
+        AuthProvider::getSignedInUser();
 
         try {
-            AuthProvider::signin($_POST['userEmail'], $_POST['userPasswd']);
+            AuthProvider::signin();
         } catch (AuthException $e) {
             return "la connection a echouée";
         }

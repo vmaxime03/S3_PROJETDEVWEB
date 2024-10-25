@@ -10,7 +10,7 @@ class DeefyRepository
     private static array $config = [ ];
 
     private function __construct(array $config) {
-        $dsn = "".$config['driver'].":".$config['host'].";dbname=".$config['database'];
+        $dsn = "".$config['driver'].":host=".$config['host'].";dbname=".$config['database'];
         $this->pdo = new PDO($dsn, $config['username'], $config['password']);
     }
 
