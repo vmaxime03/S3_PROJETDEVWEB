@@ -2,25 +2,32 @@
 
 namespace iutnc\deefy\auth;
 
+use iutnc\deefy\dbclasses\User;
 use iutnc\deefy\db\DeefyRepository;
+
 
 class AuthProvider
 {
-    public static function signin(string $user, string $password) : void {
+    public static function signin(string $email, string $password) : void {
         $repo = DeefyRepository::getInstance();
-        $hash = $repo->findUserByEmail($_POST['userEmail'])->passwd;
+        $user = $repo->findUserByEmail($email);
+        //TODO ERROR
+        $hash = $user->passwd;
 
-        if (!password_verify($_POST['userPasswd'], $hash))
+        if (!password_verify($password, $hash)) {
             throw new AuthException("Auth error : invalid credentials");
-
-
+        }
+        else {
+            $_SESSION['user'] = serialize($user);
+        }
     }
 
-    public static function getSignedInUser() : void {
-        if (!(isset($_SESSION["userEmail"]) && $_SESSION["userEmail"] == $_POST['userEmail'])) {
+    public static function getSignedInUser() : User {
+        if (isset($_SESSION["user"])) {
+            return unserialize($_SESSION["user"]);
+        } else {
             throw new AuthException("User not connected");
         }
-
     }
 
 
@@ -28,9 +35,17 @@ class AuthProvider
         if (! filter_var($email, FILTER_VALIDATE_EMAIL))
             throw new AuthException(" error : invalid user email");
 
-        $hash = password_hash($pass, PASSWORD_BCRYPT, ['cost'=>12]);
 
-        //TODO "insert into User (email, passwd ) values($email, $hash)";
+        if(DeefyRepository::getInstance()->findUserByEmail($email) == null){
+            $hash = password_hash($pass, PASSWORD_DEFAULT, ['cost'=>12]);
+            DeefyRepository::getInstance()->addUser($email, $hash);
+        } else {
+            throw new CreateUserException("user already exist");
+        }
+
+
+
+
     }
 
 

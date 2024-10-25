@@ -1,6 +1,7 @@
 <?php
 
 namespace iutnc\deefy\db;
+use iutnc\deefy\dbclasses\User;
 use PDO;
 
 class DeefyRepository
@@ -33,20 +34,26 @@ class DeefyRepository
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function findUserById(string $id) : mixed
-    {
-        $query = "SELECT * FROM user WHERE id = :id";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_OBJ);
-    }
 
-    public function findUserByEmail(string $email) : mixed
+    public function findUserByEmail(string $email) : User|null
     {
         $query = "SELECT * FROM user WHERE id = :email";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['email' => $email]);
-        return $stmt->fetch(PDO::FETCH_OBJ);
+        $user = $stmt->fetch(PDO::FETCH_OBJ);
+        if (!$user) {
+            return null;
+        }
+        return new User($user->id, $user->email, $user->role);
+    }
+
+    public function addUser(string $email, string $passwd) : void
+    {
+        $role = User::$ROLE_USER;
+
+        $query = "INSERT INTO user (id, email, passwd, role) VALUES (NULL, '$email',  '$passwd', $role)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
     }
 
 

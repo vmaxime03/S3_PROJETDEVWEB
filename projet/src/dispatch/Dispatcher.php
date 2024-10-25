@@ -4,6 +4,7 @@ namespace iutnc\deefy\dispatch;
 
 use iutnc\deefy\action\AddPlaylistAction;
 use iutnc\deefy\action\AddUserAction;
+use iutnc\deefy\action\CreateUserAction;
 use iutnc\deefy\action\DefaultAction;
 use iutnc\deefy\action\DisplayPlaylistAction;
 use iutnc\deefy\action\AddTrackAction;
@@ -31,6 +32,7 @@ class Dispatcher {
             <li><a href="?action=playlist">Afficher playlist</a></li>
             <li><a href="?action=default">Action par defaut</a></li>
             <li><a href="?action=add-user">Ajouter utilisateur</a></li>
+            <li><a href="?action=create-user">Create un compte</a></li>
             <li><a href="?action=signin">Se Connecter</a></li>
         </ul>
         
@@ -49,6 +51,7 @@ END;
             "add-track" => new AddTrackAction(),
             "add-user" => new AddUserAction(),
             "signin" => new SigninAction(),
+            "create-user" => new CreateUserAction(),
             default => new DefaultAction()
         })->execute());
 
