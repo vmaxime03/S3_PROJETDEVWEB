@@ -11,12 +11,14 @@ class User
     public $id;
     public $email;
     public $role;
+    public $passwd;
 
-    public function __construct($id, $email, $role)
+    public function __construct($id, $email, $role, $passwd)
     {
         $this->id = $id;
         $this->email = $email;
         $this->role = $role;
+        $this->passwd = $passwd;
     }
 
 

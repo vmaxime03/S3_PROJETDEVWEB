@@ -28,17 +28,21 @@ FORM;
         }
 
         try {
-            AuthProvider::getSignedInUser();
-            return "connection reussie";
+            $user = AuthProvider::getSignedInUser();
+            if ($user->email === $_POST["userEmail"] &&
+                password_verify($_POST['userPasswd'], $user->passwd)) {
+                return "connection reussie : session";
+            } else {
+                throw new AuthException();
+            }
         } catch (AuthException $e) {
             try {
                 AuthProvider::signin($_POST["userEmail"], $_POST["userPasswd"]);
+                return "connection reussie : nouvelle connection";
             } catch (AuthException $e) {
-                return $e->getMessage();
+                return "erreur lors de la connexion : noramle ";
             }
         }
-
-
 
     }
 }

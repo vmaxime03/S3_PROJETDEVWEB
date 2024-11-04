@@ -35,16 +35,13 @@ class DeefyRepository
     }
 
 
-    public function findUserByEmail(string $email) : User|null
+    public function findUserByEmail(string $email) : mixed
     {
-        $query = "SELECT * FROM user WHERE id = :email";
+        $query = "SELECT * FROM user WHERE email = :email";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_OBJ);
-        if (!$user) {
-            return null;
-        }
-        return new User($user->id, $user->email, $user->role);
+        return $user;
     }
 
     public function addUser(string $email, string $passwd) : void

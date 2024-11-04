@@ -8,6 +8,7 @@ use iutnc\deefy\action\CreateUserAction;
 use iutnc\deefy\action\DefaultAction;
 use iutnc\deefy\action\DisplayPlaylistAction;
 use iutnc\deefy\action\AddTrackAction;
+use iutnc\deefy\action\LogoutAction;
 use iutnc\deefy\action\SignInAction;
 
 class Dispatcher {
@@ -27,13 +28,20 @@ class Dispatcher {
     <body>
         <h1>DEEFY</h1>
         <ul>
-            <li><a href="?action=add-playlist">Ajouter/remplacer playlist en session</a></li>
-            <li><a href="?action=add-track">Ajouter track a la playlist</a></li>
-            <li><a href="?action=playlist">Afficher playlist</a></li>
-            <li><a href="?action=default">Action par defaut</a></li>
-            <li><a href="?action=add-user">Ajouter utilisateur</a></li>
+            <li><a href="?action=default">Acceuil</a></li>
+            <br>
             <li><a href="?action=create-user">Create un compte</a></li>
             <li><a href="?action=signin">Se Connecter</a></li>
+            <li><a href="?action=logout">Se deconecter</a></li>
+            <br>
+            <li><a href="?action=playlist-list">Afficher la listes des playlists</a></li>
+            
+            <li><a href="?action=add-playlist">Ajouter/remplacer playlist en session</a></li>
+            <li><a href="?action=add-track">Ajouter track a la playlist courante</a></li>
+            <li><a href="?action=playlist">Afficher playlist</a></li>
+            
+            <li><a href="?action=add-user">A RETIRER Ajouter utilisateur</a></li>
+           
         </ul>
         
        <div>$html</div> 
@@ -52,6 +60,7 @@ END;
             "add-user" => new AddUserAction(),
             "signin" => new SigninAction(),
             "create-user" => new CreateUserAction(),
+            "logout" => new LogoutAction(),
             default => new DefaultAction()
         })->execute());
 

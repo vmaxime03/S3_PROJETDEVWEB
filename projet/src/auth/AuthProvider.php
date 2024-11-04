@@ -11,7 +11,11 @@ class AuthProvider
     public static function signin(string $email, string $password) : void {
         $repo = DeefyRepository::getInstance();
         $user = $repo->findUserByEmail($email);
-        //TODO ERROR
+
+        if (!$user || is_null($user)) {
+            throw new AuthException("user not found");
+        }
+
         $hash = $user->passwd;
 
         if (!password_verify($password, $hash)) {
@@ -22,7 +26,7 @@ class AuthProvider
         }
     }
 
-    public static function getSignedInUser() : User {
+    public static function getSignedInUser() : mixed {
         if (isset($_SESSION["user"])) {
             return unserialize($_SESSION["user"]);
         } else {
