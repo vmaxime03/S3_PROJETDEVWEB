@@ -18,15 +18,15 @@ class PodcastTrackRenderer extends AudioTrackRenderer
 
         return "<figure>
                   <figcaption>". $this->podcastTrack->titre . " par ". $this->podcastTrack->auteur .":</figcaption>
-                  <audio controls src=". $this->podcastTrack->path ."></audio> 
+                  <audio controls src=". $this->podcastTrack->filename ."></audio> 
                 </figure>";
     }
     public function renderLong() : string
     {
         return "<div>"."<p>" .
             "<b>" .  $this->podcastTrack->titre . "</b>" . " par ". $this->podcastTrack->auteur . " - " . $this->podcastTrack->date ."<br>" .
-            AudioTrack::genreAsString($this->podcastTrack->genre) . " - " . $this->podcastTrack->duree . "</p>" .
-            "<audio controls src=". $this->podcastTrack->path ."></audio>" . "</div>";
+            $this->podcastTrack->genre . " - " . $this->podcastTrack->duree . "</p>" .
+            "<audio controls src=". $this->podcastTrack->filename ."></audio>" . "</div>";
     }
 
 

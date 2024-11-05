@@ -15,9 +15,23 @@ class AddTrackAction extends Action
     {
         return <<<END
 <form action="?action=add-track" enctype="multipart/form-data" method="POST">
-    <input type="text" name="trackName" placeholder="Track Name">
-    <input type="text" name="trackArtist" placeholder="Track Artist">
-    <input type="text" name="trackAlbum" placeholder="Track Album">
+    <input type="text" name="trackTitre" placeholder="titre">
+    <input type="text" name="trackGenre" placeholder="genre">
+    <input type="number" name="trackDuree" placeholder="duree">
+    <select name="trackType">
+        <option value="album">Album track</option>
+        <option value="podcast">Podcast track</option>
+    </select>
+    <br>
+    <label>album track :</label>
+    <input type="text" name="trackArtisteAlbum" placeholder="artiste album">
+    <input type="text" name="trackTitreAlbum" placeholder="titre album">
+    <input type="number" min="1900" max="2100" step="1" value="2024" name="trackAnneeAlbum" placeholder="annee album">
+    <input type="number" name="trackNumeroAlbum" placeholder="numero album">
+    <br>
+    <label>podcast track :</label>
+    <input type="text" name="trackAuteurPodcast" placeholder="auteur podcast">
+    <input type="date" name="trackDatePodcast" placeholder="date podcast">
     <br>
     <label>Audio :</label>
     <input type="file" name="trackFile" placeholder="null">
@@ -30,6 +44,7 @@ END;
 
     public function post(): string
     {
+
 
         if (!isset($_SESSION['playlist'])) return "No existing playlist";
 

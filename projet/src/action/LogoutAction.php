@@ -31,6 +31,7 @@ html;
     public function post(): string
     {
         unset($_SESSION['user']);
+        unset($_SESSION['playlist']);
         return <<<html
 <p> user disconected</p>
 html;

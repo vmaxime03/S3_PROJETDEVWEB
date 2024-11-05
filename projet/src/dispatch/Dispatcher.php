@@ -8,6 +8,7 @@ use iutnc\deefy\action\CreateUserAction;
 use iutnc\deefy\action\DefaultAction;
 use iutnc\deefy\action\DisplayPlaylistAction;
 use iutnc\deefy\action\AddTrackAction;
+use iutnc\deefy\action\DisplayPlaylistListAction;
 use iutnc\deefy\action\LogoutAction;
 use iutnc\deefy\action\SignInAction;
 
@@ -35,10 +36,11 @@ class Dispatcher {
             <li><a href="?action=logout">Se deconecter</a></li>
             <br>
             <li><a href="?action=playlist-list">Afficher la listes des playlists</a></li>
-            
+            <li><a href="?action=playlist">Afficher playlist courante</a></li>
+            <br>
             <li><a href="?action=add-playlist">Ajouter/remplacer playlist en session</a></li>
             <li><a href="?action=add-track">Ajouter track a la playlist courante</a></li>
-            <li><a href="?action=playlist">Afficher playlist</a></li>
+            <br>
             
             <li><a href="?action=add-user">A RETIRER Ajouter utilisateur</a></li>
            
@@ -61,6 +63,7 @@ END;
             "signin" => new SigninAction(),
             "create-user" => new CreateUserAction(),
             "logout" => new LogoutAction(),
+            "playlist-list" => new DisplayPlaylistListAction(),
             default => new DefaultAction()
         })->execute());
 

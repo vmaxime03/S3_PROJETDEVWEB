@@ -27,12 +27,19 @@ FORM;
             return "entrée manquante";
         }
 
-        try {
-            AuthProvider::register($_POST["userEmail"], $_POST["userPasswd"]);
-            return "User cree avec succes";
-        } catch (AuthException $e) {
-            return "Erreur : " . $e->getMessage();
+        if ($_POST["userEmail"] === filter_var($_POST["userEmail"], FILTER_SANITIZE_EMAIL) &&
+            $_POST["userPasswd"] === filter_var($_POST["userPasswd"], FILTER_SANITIZE_STRING)) {
+            try {
+                AuthProvider::register($_POST["userEmail"], $_POST["userPasswd"]);
+                return "User cree avec succes";
+            } catch (AuthException $e) {
+                return "Erreur : " . $e->getMessage();
+            }
+        } else {
+            return "email ou mot de passe invalide";
         }
+
+
 
     }
 }

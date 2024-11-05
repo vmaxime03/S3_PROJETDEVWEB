@@ -2,44 +2,40 @@
 
 namespace iutnc\deefy\audio\tracks;
 
+use iutnc\deefy\exceptions\InvalidPropertyNameException;
+
 class AlbumTrack extends AudioTrack
 {
+    private string $artiste;
     private string $album;
+    private int $annee;
     private int $numero;
 
     public function __construct(
-        string $titre, string $path, string $album, int $numero)
+        string $titre, string $genre, int $duree, string $filename, string $artiste, string $album, int $annee, int $numero)
     {
-        parent::__construct($titre,'unset', 'unset', -1,-1, $path);
+        parent::__construct($titre, $genre, $duree, $filename);
+        $this->artiste = $artiste;
         $this->album = $album;
+        $this->annee = $annee;
         $this->numero = $numero;
-
     }
 
     public function __get(string $name) : mixed
     {
-        switch ($name) {
-            case 'artiste':
-                return $this->auteur;
-            case 'annee':
-                return $this->date;
-            case 'album':
-            case 'numero':
-                return $this->$name;
-            default:
-                return parent::__get($name);
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        } else {
+            throw new InvalidPropertyNameException("$name is not a valid property");
         }
     }
 
     public function __set(string $name, $value): void
     {
-        switch ($name) {
-            case 'path':
-            case 'album':
-            case 'numero':
-            case 'titre': break;
-            default:
-                parent::__set($name, $value);
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+        } else {
+            throw new InvalidPropertyNameException("$name is not a valid property");
         }
     }
 

@@ -17,7 +17,7 @@ class AlbumTrackRenderer extends AudioTrackRenderer
     {
         return "<figure>
                   <figcaption>". $this->albumTrack->titre . " par ". $this->albumTrack->artiste .":</figcaption>
-                  <audio controls src=". $this->albumTrack->path ."></audio> 
+                  <audio controls src=". $this->albumTrack->filename ."></audio> 
                 </figure>";
     }
     public function renderLong() : string
@@ -25,8 +25,8 @@ class AlbumTrackRenderer extends AudioTrackRenderer
         return "<div>"."<p>" .
                 "<b>" .  $this->albumTrack->titre . "</b>" . " par ". $this->albumTrack->artiste . " - " . $this->albumTrack->annee ."<br>" .
                "Dans " . $this->albumTrack->album . " (".$this->albumTrack->numero .")". "<br>" .
-                AudioTrack::genreAsString($this->albumTrack->genre) . " - " . $this->albumTrack->duree . "</p>" .
-                "<audio controls src=". $this->albumTrack->path ."></audio>" . "</div>";
+                $this->albumTrack->genre . " - " . $this->albumTrack->duree . "</p>" .
+                "<audio controls src=". $this->albumTrack->filename ."></audio>" . "</div>";
     }
 
 }
