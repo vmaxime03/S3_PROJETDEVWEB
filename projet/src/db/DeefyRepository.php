@@ -124,18 +124,19 @@ class DeefyRepository
     }
 
 
-    public function getPlaylistOwner(string $plid) : mixed {
-        $query = "SELECT id_user as id FROM user2playlist WHERE id_pl = $plid";
+    public function getPlaylistOwnerId(string $plid) : int {
+        $query = "SELECT id_user FROM user2playlist WHERE id_pl = $plid";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ);
+        return $stmt->fetch(PDO::FETCH_OBJ)->id_user;
     }
 
-    public function getUserRole(string $userid) : int {
-        $query = "SELECT role FROM user WHERE id = $userid";
+    public function getUserById(string $userid) : User {
+        $query = "SELECT * FROM user WHERE id = $userid";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ)->role;
+        $user =$stmt->fetch(PDO::FETCH_OBJ);
+        return new User($user->id, $user->email, $user->role, $user->passwd);
     }
 
 

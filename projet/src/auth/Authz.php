@@ -14,10 +14,10 @@ class Authz
         }
         $repo = DeefyRepository::getInstance();
 
-        $owner = $repo->getPlaylistOwner($plid);
-        if ($owner->id == $user->id) {
+        $ownerId = $repo->getPlaylistOwnerId($plid);
+        if ($ownerId == $user->id) {
             return true;
-        } else if ($repo->getUserRole($owner->id) > $user->role) {
+        } else if ($repo->getUserById($ownerId)->role < $user->role) {
             return true;
         }
         return false;
