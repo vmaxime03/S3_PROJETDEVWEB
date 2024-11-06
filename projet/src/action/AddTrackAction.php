@@ -3,7 +3,10 @@
 namespace iutnc\deefy\action;
 
 use iutnc\deefy\audio\tracks\AlbumTrack;
-
+use iutnc\deefy\audio\tracks\AudioTrack;
+use iutnc\deefy\audio\tracks\PodcastTrack;
+use iutnc\deefy\db\DeefyRepository;
+use iutnc\deefy\renderer\RendererFactory;
 
 
 class AddTrackAction extends Action
@@ -13,14 +16,20 @@ class AddTrackAction extends Action
 
     public function get(): string
     {
+        if (isset($_GET["plid"])&& $_GET["plid"] == filter_var($_GET["plid"], FILTER_VALIDATE_INT)) {
+            $plid = $_GET["plid"];
+        } else {
+            if (!isset($_SESSION['playlist'])) return "No existing playlist";
+            else $plid = $_SESSION['playlist'];
+        }
         return <<<END
-<form action="?action=add-track" enctype="multipart/form-data" method="POST">
+<form action="?action=add-track&plid=$plid" enctype="multipart/form-data" method="POST">
     <input type="text" name="trackTitre" placeholder="titre">
     <input type="text" name="trackGenre" placeholder="genre">
     <input type="number" name="trackDuree" placeholder="duree">
     <select name="trackType">
-        <option value="album">Album track</option>
-        <option value="podcast">Podcast track</option>
+        <option value="A">Album track</option>
+        <option value="P">Podcast track</option>
     </select>
     <br>
     <label>album track :</label>
@@ -44,9 +53,28 @@ END;
 
     public function post(): string
     {
+        if (isset($_GET["plid"])&& $_GET["plid"] == filter_var($_GET["plid"], FILTER_VALIDATE_INT)) {
+            $plid = $_GET["plid"];
+        } else {
+            if (isset($_SESSION['playlist'])) {
+                $plid = $_SESSION['playlist'];
+            }
+            else
+                return "pas de playlist";
+        }
 
-
-        if (!isset($_SESSION['playlist'])) return "No existing playlist";
+        if (!($_POST['trackTitre'] === filter_var($_POST["trackTitre"]) &&
+            $_POST['trackGenre'] === filter_var($_POST["trackGenre"]) &&
+            $_POST['trackDuree'] === filter_var($_POST["trackDuree"]) &&
+            $_POST['trackType'] === filter_var($_POST["trackType"]) &&
+            $_POST['trackArtisteAlbum'] === filter_var($_POST["trackArtisteAlbum"]) &&
+            $_POST['trackTitreAlbum'] === filter_var($_POST["trackTitreAlbum"]) &&
+            $_POST['trackAnneeAlbum'] === filter_var($_POST["trackAnneeAlbum"]) &&
+            $_POST['trackNumeroAlbum'] === filter_var($_POST["trackNumeroAlbum"]) &&
+            $_POST['trackAuteurPodcast'] === filter_var($_POST["trackAuteurPodcast"]) &&
+            $_POST['trackDatePodcast'] === filter_var($_POST["trackDatePodcast"]))) {
+            return "erreur entrée invalide";
+        }
 
         if ($_FILES['trackFile']['error'] !== UPLOAD_ERR_OK || $_FILES['trackFile']['type'] !== "audio/mpeg") {
             return "erreur fichier audio, track non enregistrée";
@@ -58,13 +86,21 @@ END;
 
         move_uploaded_file($_FILES['trackFile']["tmp_name"], $dest);
 
-        $track = new AlbumTrack(filter_var($_POST["trackName"], FILTER_SANITIZE_STRING),
-                            $src,
-                            filter_var($_POST["trackAlbum"], FILTER_SANITIZE_STRING),
-                            0);
-        $track->__set("auteur", filter_var($_POST["trackArtist"], FILTER_SANITIZE_STRING));
-        $_SESSION["playlist"]->addTrack($track);
+        if ($_POST['trackType'] === "P") {
+            $track = new PodcastTrack($_POST["trackTitre"],$_POST["trackGenre"],$_POST["trackDuree"],
+                                    $filename,$_POST["trackAuteurPodcast"],$_POST["trackDatePodcast"]);
+        } else if ($_POST['trackType'] === "A") {
+            $track = new AlbumTrack($_POST["trackTitre"],$_POST["trackGenre"],$_POST["trackDuree"],
+                                    $filename, $_POST["trackArtisteAlbum"], $_POST["trackTitreAlbum"],
+                                    $_POST["trackAnneeAlbum"], $_POST["trackNumeroAlbum"]);
+        } else {
+            return "mauvais track type";
+        }
 
-        return "added custom track" ;
+        $repo = DeefyRepository::getInstance();
+
+        $repo->addTrackToPlaylist($track, $plid, 1);
+
+        return "added custom track <br>" . RendererFactory::getRenderer($track)->render() ;
     }
 }

@@ -5,7 +5,7 @@ namespace iutnc\deefy\renderer;
 use iutnc\deefy\audio\tracks\AudioTrack;
 use iutnc\deefy\audio\tracks\PodcastTrack;
 
-class PodcastTrackRenderer extends AudioTrackRenderer
+class PodcastTrackRenderer implements Renderer
 {
     private PodcastTrack $podcastTrack;
 
@@ -30,4 +30,11 @@ class PodcastTrackRenderer extends AudioTrackRenderer
     }
 
 
+    public function render(): string
+    {
+        return "<figure>
+                  <figcaption>". $this->podcastTrack->titre . " par ". $this->podcastTrack->auteur .":</figcaption>
+                  <audio controls src=". $this->podcastTrack->filename ."></audio> 
+                </figure>";
+    }
 }

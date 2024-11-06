@@ -59,7 +59,6 @@ class DeefyRepository
 
     public function getPlaylist(int $plid) : mixed
     {
-
         $query = "SELECT * FROM playlist WHERE id = $plid";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
@@ -75,8 +74,10 @@ class DeefyRepository
     }
 
     public function getPlaylistTracks(mixed $plid) : array {
+
         $query = "SELECT * FROM track t INNER JOIN playlist2track p ON t.id = p.id_track WHERE p.id_pl = $plid";
         $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
@@ -84,8 +85,6 @@ class DeefyRepository
         $query = "INSERT INTO playlist (id, nom) VALUES (NULL, '$playlist')";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-
-
 
         $playlistid = $this->pdo->lastInsertId();
 
@@ -98,7 +97,7 @@ class DeefyRepository
         return $playlistid;
     }
 
-    public function addTrackToPlaylist(AudioTrack $track, string $playlist, int $no_piste_dans_liste) : void
+    public function addTrackToPlaylist(AudioTrack $track, int $plid, int $no_piste_dans_liste) : void
     {
         if ($track instanceof AlbumTrack) {
             $query =  "INSERT INTO track (id, titre, genre, duree, filename, type, artiste_album, 
@@ -107,7 +106,7 @@ class DeefyRepository
                             '$track->filename', 'A', '$track->artiste', '$track->album',  
                             $track->annee, $track->numero)";
         } elseif ($track instanceof PodcastTrack) {
-            $query =  "INSERT INTO track (id, titre, genre, duree, filename, type, auteur_podcast, date_podcast) 
+            $query =  "INSERT INTO track (id, titre, genre, duree, filename, type, auteur_podcast, date_posdcast) 
                     VALUES (NULL, '$track->titre', '$track->genre', '$track->duree',
                             '$track->filename', 'P', '$track->auteur', '$track->date')";
         }
@@ -116,13 +115,9 @@ class DeefyRepository
 
         $trackid = $this->pdo->lastInsertId();
 
-        $stmt2 = $this->pdo->prepare("SELECT id FROM playlist WHERE nom = $playlist");
-        $stmt2->execute();
-
-        $playlistid = $stmt2->fetch(PDO::FETCH_OBJ)->id;
 
         $query2 = "INSERT INTO playlist2track (id_pl, id_track, no_piste_dans_liste) 
-                    VALUES ('$playlistid', '$trackid', $no_piste_dans_liste)";
+                    VALUES ('$plid', '$trackid', $no_piste_dans_liste)";
         $stmt3 = $this->pdo->prepare($query2);
         $stmt3->execute();
 

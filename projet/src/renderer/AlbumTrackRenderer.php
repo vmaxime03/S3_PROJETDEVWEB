@@ -5,7 +5,7 @@ namespace iutnc\deefy\renderer;
 use iutnc\deefy\audio\tracks\AlbumTrack;
 use iutnc\deefy\audio\tracks\AudioTrack;
 
-class AlbumTrackRenderer extends AudioTrackRenderer
+class AlbumTrackRenderer implements Renderer
 {
     private AlbumTrack $albumTrack;
 
@@ -29,4 +29,11 @@ class AlbumTrackRenderer extends AudioTrackRenderer
                 "<audio controls src=". $this->albumTrack->filename ."></audio>" . "</div>";
     }
 
+    public function render(): string
+    {
+        return "<figure>
+                  <figcaption>". $this->albumTrack->titre . " par ". $this->albumTrack->artiste .":</figcaption>
+                  <audio controls src=". $this->albumTrack->filename ."></audio> 
+                </figure>";
+    }
 }
