@@ -21,13 +21,13 @@ class DisplayPlaylistListAction extends Action
 
         $pls = $repo->getUserPlaylists($user->id);
 
-        $html  = "";
+        $html  = "<div class='list'>";
 
         foreach ($pls as $pl) {
             $html .= "<li>" . $pl->nom . "</li>   <a href='?action=playlist&plid=$pl->id'>inspecter</a>";
         }
 
-        return $html;
+        return $html . "</div>";
     }
 
     public function post(): string

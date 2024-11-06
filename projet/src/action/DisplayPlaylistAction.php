@@ -30,7 +30,7 @@ class DisplayPlaylistAction extends Action
             return "vous n'avez pas le droit";
         }
 
-        $html = "<h1>" .  $repo->getPlaylist($plid)->nom . "</h1><br>".
+        $html = "<div class='playlist' ><h1>" .  $repo->getPlaylist($plid)->nom . "</h1><br>".
                 "<a href='?action=add-track&plid=$plid'>Ajouter track a la playlist</a>";
 
         $tracks = $repo->getPlaylistTracks($plid);
@@ -53,7 +53,7 @@ class DisplayPlaylistAction extends Action
         }
 
 
-        return $html;
+        return $html . "</div>";
 
     }
 
