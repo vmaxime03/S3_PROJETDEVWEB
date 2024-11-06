@@ -46,11 +46,9 @@ class AuthProvider
         } else {
             throw new CreateUserException("user already exist");
         }
-
-
-
-
     }
+
+
 
 
 

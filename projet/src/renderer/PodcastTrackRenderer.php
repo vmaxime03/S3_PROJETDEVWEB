@@ -14,28 +14,16 @@ class PodcastTrackRenderer implements Renderer
         $this->podcastTrack = $podcastTrack;
     }
 
-    public function renderCompact() : string
-    {
-
-        return "<figure>
-                  <figcaption>". $this->podcastTrack->titre . " par ". $this->podcastTrack->auteur .":</figcaption>
-                  <audio controls src=". $this->podcastTrack->filename ."></audio> 
-                </figure>";
-    }
-    public function renderLong() : string
-    {
-        return "<div>"."<p>" .
-            "<b>" .  $this->podcastTrack->titre . "</b>" . " par ". $this->podcastTrack->auteur . " - " . $this->podcastTrack->date ."<br>" .
-            $this->podcastTrack->genre . " - " . $this->podcastTrack->duree . "</p>" .
-            "<audio controls src=". $this->podcastTrack->filename ."></audio>" . "</div>";
-    }
-
-
     public function render(): string
     {
-        return "<figure>
-                  <figcaption>". $this->podcastTrack->titre . " par ". $this->podcastTrack->auteur .":</figcaption>
-                  <audio controls src=".Consts::UPLOAD_URL . "/" .  $this->podcastTrack->filename ."></audio> 
-                </figure>";
+        $audiopath = Consts::UPLOAD_URL . "/" . $this->podcastTrack->filename;
+        return <<<HTML
+            <figure class="track"><p>
+            <b> {$this->podcastTrack->titre} </b> par {$this->podcastTrack->auteur} - {$this->podcastTrack->date}<br>
+            {$this->podcastTrack->genre} - {$this->podcastTrack->duree}</p>
+            <audio controls src={$audiopath}></audio>
+            </figure>
+HTML;
+
     }
 }

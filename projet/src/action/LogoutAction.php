@@ -4,6 +4,7 @@ namespace iutnc\deefy\action;
 
 use iutnc\deefy\auth\AuthException;
 use iutnc\deefy\auth\AuthProvider;
+use iutnc\deefy\renderer\RendererFactory;
 
 class LogoutAction extends Action
 {
@@ -12,8 +13,8 @@ class LogoutAction extends Action
     {
         try {
             $user = AuthProvider::getSignedInUser();
-            return <<<html
-<p> user : $user->email, role : $user->role</p>
+
+            return RendererFactory::getRenderer($user)->render() . <<<html
 <form action="?action=logout" method="POST">
     <input type="submit" value="Se deconecter">
 </form>

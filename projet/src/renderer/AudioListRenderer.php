@@ -17,13 +17,13 @@ class AudioListRenderer implements Renderer
     }
 
 
-    public function render(int $mode = self::COMPACT) : string
+    public function render() : string
     {
-        $r = "<h1>" . $this->audioList->name . "</h1>\n <ul>\n";
+        $r = "<div class=\"playlist\">\n<h1>" . $this->audioList->name . "</h1>\n <ul>\n";
         foreach ($this->audioList->list as $audio) {
-            $r .= "\t<li>" .  RendererFactory::getRenderer($audio)->render($mode) . "</li>\n";
+            $r .= "\t<li>" .  RendererFactory::getRenderer($audio)->render() . "</li>\n";
         }
-        $r .= "</ul>\n";
+        $r .= "</ul>\n</div>";
         return $r;
     }
 }

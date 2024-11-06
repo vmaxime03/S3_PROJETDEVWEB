@@ -39,13 +39,13 @@ class DeefyRepository
     }
 
 
-    public function findUserByEmail(string $email) : mixed
+    public function findUserByEmail(string $email) : User
     {
         $query = "SELECT * FROM user WHERE email = :email";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_OBJ);
-        return $user;
+        return new User($user->id, $user->email, $user->role, $user->passwd);
     }
 
     public function addUser(string $email, string $passwd) : void
@@ -123,6 +123,20 @@ class DeefyRepository
 
     }
 
+
+    public function getPlaylistOwner(string $plid) : mixed {
+        $query = "SELECT id_user as id FROM user2playlist WHERE id_pl = $plid";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function getUserRole(string $userid) : int {
+        $query = "SELECT role FROM user WHERE id = $userid";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ)->role;
+    }
 
 
 

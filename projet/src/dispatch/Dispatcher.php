@@ -41,9 +41,6 @@ class Dispatcher {
             <br>
             <li><a href="?action=add-playlist">Ajouter/remplacer playlist en session</a></li>
             <li><a href="?action=add-track">Ajouter track a la playlist courante</a></li>
-            <br>
-            
-            <li><a href="?action=add-user">A RETIRER Ajouter utilisateur</a></li>
            
         </ul>
         
@@ -60,7 +57,6 @@ END;
             "playlist" => new DisplayPlaylistAction(),
             "add-playlist" => new AddPlaylistAction(),
             "add-track" => new AddTrackAction(),
-            "add-user" => new AddUserAction(),
             "signin" => new SigninAction(),
             "create-user" => new CreateUserAction(),
             "logout" => new LogoutAction(),

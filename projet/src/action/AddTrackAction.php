@@ -81,9 +81,7 @@ END;
         }
 
         $filename = uniqid() . "." . pathinfo($_FILES['trackFile']['name'], PATHINFO_EXTENSION);
-        $dest = Consts::AUDIO_PATH . "\\" . $filename ;
 
-        move_uploaded_file($_FILES['trackFile']["tmp_name"], $dest);
 
         if ($_POST['trackType'] === "P") {
             $track = new PodcastTrack($_POST["trackTitre"],$_POST["trackGenre"],$_POST["trackDuree"],
@@ -99,6 +97,10 @@ END;
         $repo = DeefyRepository::getInstance();
 
         $repo->addTrackToPlaylist($track, $plid, 1);
+
+        $dest = Consts::AUDIO_PATH . "\\" . $filename ;
+
+        move_uploaded_file($_FILES['trackFile']["tmp_name"], $dest);
 
         return "added custom track <br>" . RendererFactory::getRenderer($track)->render() ;
     }

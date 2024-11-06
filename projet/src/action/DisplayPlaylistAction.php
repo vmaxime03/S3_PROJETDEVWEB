@@ -4,6 +4,7 @@ namespace iutnc\deefy\action;
 
 use iutnc\deefy\audio\tracks\AlbumTrack;
 use iutnc\deefy\audio\tracks\PodcastTrack;
+use iutnc\deefy\auth\Authz;
 use iutnc\deefy\db\DeefyRepository;
 use iutnc\deefy\renderer\RendererFactory;
 
@@ -23,6 +24,10 @@ class DisplayPlaylistAction extends Action
             } else {
                 return "pas de playlist";
             }
+        }
+
+        if (!Authz::getPlaylistAuthz($plid)) {
+            return "vous n'avez pas le droit";
         }
 
         $html = "<h1>" .  $repo->getPlaylist($plid)->nom . "</h1><br>".
