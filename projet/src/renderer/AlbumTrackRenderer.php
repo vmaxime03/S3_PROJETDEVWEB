@@ -4,6 +4,7 @@ namespace iutnc\deefy\renderer;
 
 use iutnc\deefy\audio\tracks\AlbumTrack;
 use iutnc\deefy\audio\tracks\AudioTrack;
+use iutnc\deefy\const\Consts;
 
 class AlbumTrackRenderer implements Renderer
 {
@@ -17,7 +18,7 @@ class AlbumTrackRenderer implements Renderer
     {
         return "<figure>
                   <figcaption>". $this->albumTrack->titre . " par ". $this->albumTrack->artiste .":</figcaption>
-                  <audio controls src=". $this->albumTrack->filename ."></audio> 
+                  <audio controls src=". Consts::UPLOAD_URL . "/" . $this->albumTrack->filename ."></audio> 
                 </figure>";
     }
     public function renderLong() : string
@@ -33,7 +34,7 @@ class AlbumTrackRenderer implements Renderer
     {
         return "<figure>
                   <figcaption>". $this->albumTrack->titre . " par ". $this->albumTrack->artiste .":</figcaption>
-                  <audio controls src=". $this->albumTrack->filename ."></audio> 
+                  <audio controls src=". Consts::UPLOAD_URL . "/" .  $this->albumTrack->filename ."></audio> 
                 </figure>";
     }
 }

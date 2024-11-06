@@ -4,6 +4,7 @@ namespace iutnc\deefy\renderer;
 
 use iutnc\deefy\audio\tracks\AudioTrack;
 use iutnc\deefy\audio\tracks\PodcastTrack;
+use iutnc\deefy\const\Consts;
 
 class PodcastTrackRenderer implements Renderer
 {
@@ -34,7 +35,7 @@ class PodcastTrackRenderer implements Renderer
     {
         return "<figure>
                   <figcaption>". $this->podcastTrack->titre . " par ". $this->podcastTrack->auteur .":</figcaption>
-                  <audio controls src=". $this->podcastTrack->filename ."></audio> 
+                  <audio controls src=".Consts::UPLOAD_URL . "/" .  $this->podcastTrack->filename ."></audio> 
                 </figure>";
     }
 }

@@ -5,14 +5,14 @@ namespace iutnc\deefy\action;
 use iutnc\deefy\audio\tracks\AlbumTrack;
 use iutnc\deefy\audio\tracks\AudioTrack;
 use iutnc\deefy\audio\tracks\PodcastTrack;
+use iutnc\deefy\const\Consts;
 use iutnc\deefy\db\DeefyRepository;
 use iutnc\deefy\renderer\RendererFactory;
 
 
 class AddTrackAction extends Action
 {
-    private const UPLOAD_URL = "http://localhost/BUT/S3_PROJETDEVWEB/projet/uploads/audio";
-    private const AUDIO_PATH =  __DIR__ . "\\..\\..\\uploads\\audio";
+
 
     public function get(): string
     {
@@ -81,8 +81,7 @@ END;
         }
 
         $filename = uniqid() . "." . pathinfo($_FILES['trackFile']['name'], PATHINFO_EXTENSION);
-        $dest = self::AUDIO_PATH . "\\" . $filename ;
-        $src = self::UPLOAD_URL . "/" . $filename ;
+        $dest = Consts::AUDIO_PATH . "\\" . $filename ;
 
         move_uploaded_file($_FILES['trackFile']["tmp_name"], $dest);
 
