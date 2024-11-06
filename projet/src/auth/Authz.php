@@ -21,8 +21,5 @@ class Authz
             return true;
         }
         return false;
-
-
-
     }
 }

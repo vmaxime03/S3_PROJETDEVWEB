@@ -38,9 +38,10 @@ FORM;
         } catch (AuthException $e) {
             try {
                 AuthProvider::signin($_POST["userEmail"], $_POST["userPasswd"]);
+                unset($_SESSION['playlist']);
                 return "connection reussie : nouvelle connection";
             } catch (AuthException $e) {
-                return "erreur lors de la connexion : noramle ";
+                return "erreur lors de la connexion";
             }
         }
 

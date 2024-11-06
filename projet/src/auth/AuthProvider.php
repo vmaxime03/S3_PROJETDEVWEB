@@ -40,7 +40,7 @@ class AuthProvider
             throw new AuthException(" error : invalid user email");
 
 
-        if(DeefyRepository::getInstance()->findUserByEmail($email) == null){
+        if(is_null(DeefyRepository::getInstance()->findUserByEmail($email))){
             $hash = password_hash($pass, PASSWORD_DEFAULT, ['cost'=>12]);
             DeefyRepository::getInstance()->addUser($email, $hash);
         } else {
