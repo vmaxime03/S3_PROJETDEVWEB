@@ -5,6 +5,7 @@ namespace iutnc\deefy\action;
 use iutnc\deefy\audio\tracks\AlbumTrack;
 use iutnc\deefy\audio\tracks\AudioTrack;
 use iutnc\deefy\audio\tracks\PodcastTrack;
+use iutnc\deefy\auth\Authz;
 use iutnc\deefy\const\Consts;
 use iutnc\deefy\db\DeefyRepository;
 use iutnc\deefy\renderer\RendererFactory;
@@ -21,6 +22,9 @@ class AddTrackAction extends Action
         } else {
             if (!isset($_SESSION['playlist'])) return "No existing playlist";
             else $plid = $_SESSION['playlist'];
+        }
+        if (!Authz::getPlaylistAuthz($plid)) {
+            return "vous n'avez pas le droit";
         }
         return <<<END
 <form action="?action=add-track&plid=$plid" enctype="multipart/form-data" method="POST">
@@ -62,6 +66,10 @@ END;
             else
                 return "pas de playlist";
         }
+        if (!Authz::getPlaylistAuthz($plid)) {
+            return "vous n'avez pas le droit";
+        }
+
 
         if (!($_POST['trackTitre'] === filter_var($_POST["trackTitre"]) &&
             $_POST['trackGenre'] === filter_var($_POST["trackGenre"]) &&
